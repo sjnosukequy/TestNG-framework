@@ -6,7 +6,7 @@ export default {
         awesome: {
             enabled: true,
             options: {
-                singleFile: true,
+                singleFile: false,
                 reportLanguage: "en",
             },
         },
