@@ -1,7 +1,7 @@
 #Allure
 .allure
 /*/allure-results/
-.env
+*.env
 
 #Reports
 reports
