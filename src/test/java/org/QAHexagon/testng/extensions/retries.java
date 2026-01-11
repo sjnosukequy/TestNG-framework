@@ -4,10 +4,10 @@ import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
 import org.apache.logging.log4j.Logger;
-import org.QAHexagon.testng.annotations.Auth;
+import org.QAHexagon.testng.annotations.Retries;
 import org.apache.logging.log4j.LogManager;
 
-public class authRetries implements IRetryAnalyzer {
+public class retries implements IRetryAnalyzer {
     private int retryCount = 0;
     private int maxRetryCount = 3;
     private long sleepMillis = 1000;
@@ -15,23 +15,21 @@ public class authRetries implements IRetryAnalyzer {
 
     @Override
     public boolean retry(ITestResult result) {
-        // Read @Auth annotation once
+        // Read @Retries annotation once
         if (retryCount == 0) {
-            Auth auth = result.getMethod()
+            Retries retries = result.getMethod()
                     .getConstructorOrMethod()
                     .getMethod()
-                    .getAnnotation(Auth.class);
+                    .getAnnotation(Retries.class);
 
-            if (auth != null) {
-                maxRetryCount = auth.maxRetries();
-                sleepMillis = auth.sleepMillis();
+            if (retries != null) {
+                maxRetryCount = retries.maxRetries();
+                sleepMillis = retries.sleepMillis();
             }
         }
 
         if (retryCount < maxRetryCount) {
-
-            // Fetch new access token logic can be added here
-
+            // add sleep between retries if needed
             retryCount++;
             LOGGER.info("Retry {} / {} - sleeping {} ms", retryCount, maxRetryCount, sleepMillis);
             sleepBeforeRetry();

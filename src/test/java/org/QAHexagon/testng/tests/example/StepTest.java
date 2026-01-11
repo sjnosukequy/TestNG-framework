@@ -7,6 +7,7 @@ import org.QAHexagon.testng.base.baseTest;
 import org.testng.annotations.Test;
 
 import org.QAHexagon.testng.annotations.Auth;
+import org.QAHexagon.testng.annotations.Retries;
 
 import static org.testng.Assert.*;
 
@@ -22,12 +23,18 @@ public class StepTest extends baseTest {
 
     @Auth
     @Test
-    public void testAuth() {
+    public void testRetries() {
+        assertEquals(1 + 1, 3);
+    }
+
+    @Auth(maxRetries = 5)
+    @Test
+    public void testRetries2() {
         assertEquals(1 + 1, 3);
     }
 
     @Test
-    @Auth(accessToken = "exampleToken123")
+    @Retries(maxRetries = 5)
     public void lambdaStepTest() {
         final String localParameter = "parameter value";
         Allure.step(String.format("Parent lambda step with parameter [%s]", localParameter), (step) -> {

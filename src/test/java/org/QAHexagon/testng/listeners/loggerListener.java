@@ -1,5 +1,6 @@
 package org.QAHexagon.testng.listeners;
 
+import io.qameta.allure.Allure;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -22,7 +23,8 @@ public class loggerListener implements IInvokedMethodListener {
         String testName = testResult.getInstanceName() + "." + testResult.getName();
         if (testResult.getStatus() == ITestResult.FAILURE) {
             LOGGER.error("Test failed: {}", testName);
-            LOGGER.error("Cause: {}", testResult.getThrowable());
+            LOGGER.error("Cause: ", testResult.getThrowable());
+            Allure.addAttachment("Failure Reason", testResult.getThrowable().getMessage());
         } else if (testResult.getStatus() == ITestResult.SKIP) {
             LOGGER.warn("Test skipped: {}", testName);
         } else {

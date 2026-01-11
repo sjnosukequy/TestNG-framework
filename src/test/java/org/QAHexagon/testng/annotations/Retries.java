@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Auth {
+public @interface Retries {
     int maxRetries() default 3;
     long sleepMillis() default 1000;
 }

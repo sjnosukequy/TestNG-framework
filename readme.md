@@ -23,3 +23,16 @@ src\test\java\org\QAHexagon\testng\api\baseAPI\baseAPI.java
 5. Implement your API of choice in the `src\test\java\org\QAHexagon\testng\api` folder
 
 6. Design your testcase (using testNG) in `src\test\java\org\QAHexagon\testng\tests` folder
+
+# Allure Report
+
+Generate report
+
+```
+allure generate target\allure-results
+```
+
+View Report
+```
+allure open reports\allure
+```
