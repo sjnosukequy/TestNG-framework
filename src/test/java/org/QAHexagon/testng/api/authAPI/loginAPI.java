@@ -4,6 +4,8 @@ import org.QAHexagon.testng.api.baseAPI.baseAPI;
 // import org.QAHexagon.testng.env.envManager;
 import org.QAHexagon.testng.env.tokenManager;
 
+import com.beust.ah.A;
+
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
@@ -11,10 +13,11 @@ import static io.restassured.RestAssured.given;
 
 import java.util.HashMap;
 import java.util.Map;
+import io.qameta.allure.Allure;
 
 public class loginAPI extends baseAPI {
 
-    static public JsonPath login(String email, String password, boolean setCookie) {
+    static public Response login(String email, String password, boolean setCookie) {
         Map<String, Object> payload = new HashMap<>();
         payload.put("email", email);
         payload.put("password", password);
@@ -32,13 +35,13 @@ public class loginAPI extends baseAPI {
         if (setCookie)
             tokenManager.setRefreshToken(response.getCookie("refreshToken"));
 
-        JsonPath result = response.jsonPath();
+        // JsonPath result = response.jsonPath();
         // tokenManager.setAccessToken(result.getString("result.accessToken"));
 
-        return result;
+        return response;
     }
 
-    static public JsonPath refresh() {
+    static public Response refresh() {
         Response response = given()
                 .when()
                 .cookie("refreshToken", tokenManager.getRefreshToken())
@@ -47,11 +50,11 @@ public class loginAPI extends baseAPI {
                 .extract()
                 .response();
         // set cookies, tokens, etc... from response if needed
-        JsonPath result = response.jsonPath();
-        return result;
+        // JsonPath result = response.jsonPath();
+        return response;
     }
 
-    static public JsonPath test() {
+    static public Response test() {
         Response response = given()
                 .when()
                 .get("/posts/1")
@@ -59,7 +62,44 @@ public class loginAPI extends baseAPI {
                 .extract()
                 .response();
 
-        return response.jsonPath();
+        return response;
+    }
+
+    
+    static public Response param(Object userId, Object id) {
+        Map<String, Object> payload = new HashMap<>();
+        notEmptyAddParam(payload, "userId", userId);
+        notEmptyAddParam(payload, "id", id);
+
+        Allure.addAttachment("Query Parameters", payload.toString());
+
+        Response response = given()
+                .params(payload)
+                .when()
+                .get("/posts")
+                .then()
+                .extract()
+                .response();
+
+        return response;
+    }
+
+    static public Response error() {
+
+        Response response = given()
+                .when()
+                .get("/400")
+                .then()
+                .extract()
+                .response();
+
+        return response;
+    }
+
+    static private void notEmptyAddParam(Map<String, Object> payload, String key, Object value) {
+        if (value != null && !value.toString().isEmpty()) {
+            payload.put(key, value);
+        }
     }
 
 }
