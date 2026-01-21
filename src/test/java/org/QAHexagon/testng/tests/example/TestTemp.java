@@ -44,6 +44,16 @@ public class TestTemp extends baseTest {
         // System.out.println("Response: " + response.prettyPrint());
     }
 
+     @Test
+    public void test4() {
+        Response response = loginAPI.image();
+        // JsonPath jsonPath = response.jsonPath();
+        // int statusCode = response.getStatusCode();
+        // assertThat("Unexpected HTTP error", statusCode, lessThan(400));
+        // JsonPath response = loginAPI.error();
+        // System.out.println("Response: " + response.prettyPrint());
+    }
+
     @DataProvider(name = "test1")
     public Iterator<Object[]> createData1() {
         return csvHelper.readCSV("testdata/names.csv");

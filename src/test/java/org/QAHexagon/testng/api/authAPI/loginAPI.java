@@ -4,13 +4,12 @@ import org.QAHexagon.testng.api.baseAPI.baseAPI;
 // import org.QAHexagon.testng.env.envManager;
 import org.QAHexagon.testng.env.tokenManager;
 
-import com.beust.ah.A;
-
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import io.qameta.allure.Allure;
@@ -65,7 +64,6 @@ public class loginAPI extends baseAPI {
         return response;
     }
 
-    
     static public Response param(Object userId, Object id) {
         Map<String, Object> payload = new HashMap<>();
         notEmptyAddParam(payload, "userId", userId);
@@ -87,6 +85,19 @@ public class loginAPI extends baseAPI {
     static public Response error() {
 
         Response response = given()
+                .when()
+                .get("/400")
+                .then()
+                .extract()
+                .response();
+
+        return response;
+    }
+
+    static public Response image() {
+
+        Response response = given()
+                .multiPart("image",new File("c://Users//Sjnosuke//Desktop//pexels-toulouse-3099153.jpg"))
                 .when()
                 .get("/400")
                 .then()

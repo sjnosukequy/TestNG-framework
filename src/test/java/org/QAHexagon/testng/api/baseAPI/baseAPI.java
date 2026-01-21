@@ -12,7 +12,9 @@ import org.apache.logging.log4j.io.IoBuilder;
 import org.apache.logging.log4j.Level;
 
 import io.restassured.filter.log.ErrorLoggingFilter;
-import io.restassured.filter.log.RequestLoggingFilter;
+// import io.restassured.filter.log.RequestLoggingFilter;
+
+import org.QAHexagon.testng.filters.SafeRequestLoggingFilter;
 
 public class baseAPI {
 
@@ -22,7 +24,7 @@ public class baseAPI {
                 .buildPrintStream();
         // config rest assured to use BaseURI, etc....
         RestAssured.baseURI = envManager.getBaseURI();
-        RestAssured.filters(new AllureRestAssured(), new RequestLoggingFilter(log4jStream), new ErrorLoggingFilter(log4jStream));
+        RestAssured.filters(new AllureRestAssured(), new SafeRequestLoggingFilter(log4jStream), new ErrorLoggingFilter(log4jStream));
         // RestAssured.config().matcherConfig(new MatcherConfig(MatcherConfig.ErrorDescriptionType.HAMCREST));
     }
 }
